@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D-SPAN DNA Analyzer</title>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="landing.css">
+  <style>
+    /* Scroll Animation */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease-out;
+    }
+    .scroll-reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="divider"></div>
+    <div class="square">Sign Up</div>
+    <div class="signup">
+      <div>
+        <a href="app.html" class="sign-in-btn">Sign In</a>
+      </div>
+      <p>Already have an account?</p>
+    </div>
+    <div class="lago">D 🧬SPAN</div>
+    <div class="profile">
+      <i class="fa-regular fa-circle-user"></i>
+    </div>
+  </nav>
+
+  <!-- Hero Banner -->
+  <section id="home" class="hero-banner scroll-reveal">
+    <img src="../dna_image.jpg" alt="DNA banner">
+    <div class="banner-text">
+      <h1>Discover the Pattern Within.</h1>
+      <p>Analyze Your DNA Instantly with <strong>D-SPAN</strong>.</p>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features">
+    <h2>DNA Analyzer Features</h2>
+    <div class="features">
+      <div class="box scroll-reveal"><h1>search_pattern</h1></div>
+      <div class="box scroll-reveal"><h1>cal_gc_content</h1></div>
+      <div class="box scroll-reveal"><h1>generate_complement</h1></div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="scroll-reveal">
+    <h2>About Our Team</h2>
+  </section>
+
+  <!-- Contact + Footer -->
+  <section id="contact" class="scroll-reveal">
+    <div class="contact-container">
+      <h2>Contact Us</h2>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-column">
+          <h4>D-Span</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Our Vision</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          <a href="#">Legal</a> | 
+          <a href="#">Privacy Policy</a> | 
+          <a href="#">Cookies</a> | 
+          <a href="#">Accessibility</a>
+        </p>
+        <p>&copy; 2025 D-Span. All rights reserved.</p>
+      </div>
+    </footer>
+  </section>
+
+  <!-- Scroll Animation Script -->
+  <script>
+    function revealOnScroll() {
+      const elements = document.querySelectorAll('.scroll-reveal');
+      const windowHeight = window.innerHeight;
+
+      elements.forEach(el => {
+        const position = el.getBoundingClientRect().top;
+        if (position < windowHeight - 100) {
+          el.classList.add('show');
+        }
+      });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+  </script>
+
+</body>
+</html>
