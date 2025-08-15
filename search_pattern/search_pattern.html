@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DNA Pattern Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .highlight-pattern { background-color: yellow; font-weight: bold; }
+    .highlight-start { background-color: lightgreen; font-weight: bold; }
+    .highlight-stop { background-color: salmon; font-weight: bold; }
+    .results {
+      margin-top: 20px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-left: 5px solid #4CAF50;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔍 DNA Pattern Search Tool</h1>
+  <div class="container">
+    <label for="sequence">Enter DNA Sequence:</label>
+    <textarea id="sequence" rows="4" placeholder="e.g. ATGCGATATGAC"></textarea>
+
+    <label for="pattern">Enter Custom DNA Pattern:</label>
+    <input type="text" id="pattern" placeholder="e.g. AGCTGAC" />
+
+    <button onclick="searchPattern()">Search</button>
+
+    <div id="results" class="results" style="display:none;"></div>
+  </div>
+
+  <script>
+    function searchPattern() {
+      const dnaSequence = document.getElementById("sequence").value.trim().toUpperCase();
+      const pattern = document.getElementById("pattern").value.trim().toUpperCase();
+      const resultsDiv = document.getElementById("results");
+
+      if (!/^[ATCG]+$/.test(dnaSequence)) {
+        alert("Please enter a valid DNA sequence (A, T, C, G only).");
+        return;
+      }
+
+      let highlightedSequence = dnaSequence;
+      let output = "";
+
+      // 1️⃣ Custom Pattern Search
+      if (pattern) {
+        if (!/^[ATCG]+$/.test(pattern)) {
+          alert("Please enter a valid pattern (A, T, C, G only).");
+          return;
+        }
+
+        let positions = [];
+        let tempSeq = "";
+        let lastIndex = 0;
+        let foundMatch = false;
+
+        for (let i = 0; i <= dnaSequence.length - pattern.length; i++) {
+          if (dnaSequence.substr(i, pattern.length) === pattern) {
+            foundMatch = true;
+            positions.push(i + 1);
+            tempSeq += dnaSequence.substring(lastIndex, i) +
+                       `<span class="highlight-pattern">${pattern}</span>`;
+            lastIndex = i + pattern.length;
+          }
+        }
+        tempSeq += dnaSequence.substring(lastIndex);
+        highlightedSequence = tempSeq;
+
+        if (foundMatch) {
+          output += `<p><strong>Custom Pattern Matches:</strong> ${positions.join(", ")}</p>`;
+        } else {
+          output += `<p><strong>Custom Pattern Matches:</strong> ❌ Pattern not found</p>`;
+        }
+      }
+
+      // 2️⃣ Start codon search (ATG)
+      let startPositions = [];
+      highlightedSequence = highlightedSequence.replace(/ATG/g, match => {
+        let pos = dnaSequence.indexOf(match, startPositions.length ? startPositions[startPositions.length - 1] : 0);
+        startPositions.push(pos + 1);
+        return `<span class="highlight-start">${match}</span>`;
+      });
+
+      // 3️⃣ Stop codon search (TAA, TAG, TGA)
+      let stopPositions = [];
+      highlightedSequence = highlightedSequence.replace(/TAA|TAG|TGA/g, match => {
+        let pos = dnaSequence.indexOf(match, stopPositions.length ? stopPositions[stopPositions.length - 1] : 0);
+        stopPositions.push(pos + 1);
+        return `<span class="highlight-stop">${match}</span>`;
+      });
+
+      output += `<p><strong>Start Codons (ATG):</strong> ${startPositions.length ? startPositions.join(", ") : "None"}</p>`;
+      output += `<p><strong>Stop Codons (TAA, TAG, TGA):</strong> ${stopPositions.length ? stopPositions.join(", ") : "None"}</p>`;
+
+      // 4️⃣ Detect di- or tri-nucleotide repeats (3+ times)
+      let repeatResults = [];
+      for (let size = 2; size <= 3; size++) {
+        for (let i = 0; i <= dnaSequence.length - size; i++) {
+          let unit = dnaSequence.substr(i, size);
+          let repeatCount = 1;
+          let j = i + size;
+          while (dnaSequence.substr(j, size) === unit) {
+            repeatCount++;
+            j += size;
+          }
+          if (repeatCount >= 3) {
+            repeatResults.push(`${unit} repeated ${repeatCount} times starting at position ${i + 1}`);
+            i = j - 1;
+          }
+        }
+      }
+
+      if (repeatResults.length) {
+        output += `<p><strong>🧪 Detected Repeats:</strong><br>• ${repeatResults.join("<br>• ")}</p>`;
+      } else {
+        output += `<p><strong>🧪 Detected Repeats:</strong> None</p>`;
+      }
+
+      // 5️⃣ Show highlighted sequence
+      output += `<p><strong>Highlighted Sequence:</strong></p><div style="word-wrap: break-word;">${highlightedSequence}</div>`;
+
+      resultsDiv.style.display = "block";
+      resultsDiv.innerHTML = output;
+    }
+  </script>
+
+</body>
+</html>

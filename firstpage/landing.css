@@ -212,9 +212,12 @@ nav {
   z-index: 1;
   border-radius: 20px;
     transition: transform 0.5s ease; /* Smooth zoom */
-}
+  display: block;
+  }
 .box:hover img {
   transform: scale(1.1);
+    position: absolute;
+  z-index: 1;
 }
 /* for the box 3*/
 .features .box:nth-of-type(3) {
@@ -223,7 +226,7 @@ nav {
 
 .box h1 {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   font-size: 2rem;
   color: white;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
@@ -259,7 +262,48 @@ nav {
     transform: translateY(0);
   }
 }
+/*  transparent din in the feature*/
+ 
+.transparent-div {
+  position: absolute;        
+  top: 0;
+  right: 0;                   
+  width: 450px;               
+  height: 100%;               
+  background-color: rgba(0, 0, 0, 0.8); 
+  z-index: 2;               
+  display: flex;              /* center content easily */
+  flex-direction: column;     /* stack heading and text vertically */
+  align-items: center;        
+  justify-content: center;    /* center both together vertically */
+  padding: 10px;
+  box-sizing: border-box;    
+}
 
+.transparent-div h1 {
+  margin: 0 0 8px 0; /* space between heading and text */
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  font-family: "cooper black", "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.1;
+  letter-spacing: 0.2px;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.6);
+  pointer-events: none;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+.transparent-div .bottom-text {
+  color: #f0f0f0;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center; /* fixed from 'bottom' to valid 'center' */
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  max-width: 90%;
+}
 
 
 
