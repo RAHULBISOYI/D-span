@@ -2,8 +2,8 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   scroll-behavior: smooth;
-  background: linear-gradient(150deg, #ed3c51, #326cb3,rgb(164, 235, 255), #57b6e2, #154192);
- 
+background: linear-gradient(150deg, #ff6f91, #326cb3, #a4ebff, #1c516a);
+
 }
 
 
@@ -332,7 +332,7 @@ contact section
 
 /* Black Header Container */
 .contact-footer-wrapper {
-  background-color: #000;
+  background-color: #9d7070;
   color: #fff;
   padding: 40px 20px;
   border-radius: 20px 20px 0 0; /* Only round top corners */
@@ -446,11 +446,25 @@ contact section
     text-align: center;
   }
 }
-
-
-section {
-  height: 100vh;
+#contact{
+  min-height: 60vh;
   padding: 40px;
+}
+
+#features {
+  min-height: 120vh; /* minimum 120% of screen height */
+  padding: 40px;
+}
+#home {
+  min-height: 80vh;
+  
+}
+
+
+#videos{
+  min-height: 100vh;
+  padding: 40px;
+
 }
 
 

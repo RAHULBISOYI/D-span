@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DNA Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f2f8fc;
+    }
+    .container {
+      background-color: #e6f3ff; /* light blue */
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 700px;
+      margin: auto;
+    }
+    h2 {
+      color: #004080;
+      margin-bottom: 16px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #b3d1ff;
+      padding: 10px;
+    }
+    select, button {
+      font-size: 16px;
+      padding: 8px 12px;
+      margin-right: 10px;
+      border-radius: 8px;
+      border: 1px solid #b3d1ff;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>DNA Tools</h2>
+    <textarea id="dnaInput" placeholder="Enter DNA sequence (e.g. ATGC)"></textarea>
+
+    <br>
+
+    <select id="actionSelect">
+      <option value="complement">🧬 Complement</option>
+      <option value="reverseComplement">🔄 Reverse Complement</option>
+      <option value="transcription">🧪 Transcription (DNA → RNA)</option>
+    </select>
+
+    <button onclick="processDNA()">Run</button>
+
+    <h3>Output:</h3>
+    <textarea id="dnaOutput" readonly></textarea>
+  </div>
+
+  <script>
+    function getComplement(base) {
+      switch (base) {
+        case "A": return "T";
+        case "T": return "A";
+        case "C": return "G";
+        case "G": return "C";
+        default: return base; // keep invalid characters as is
+      }
+    }
+
+    function processDNA() {
+      const input = document.getElementById("dnaInput").value.toUpperCase();
+      const action = document.getElementById("actionSelect").value;
+      let result = "";
+
+      if (action === "complement" || action === "reverseComplement") {
+        // Generate complement
+        for (let base of input) {
+          result += getComplement(base);
+        }
+        // If reverse complement, flip it
+        if (action === "reverseComplement") {
+          result = result.split("").reverse().join("");
+        }
+      } 
+      else if (action === "transcription") {
+        // DNA -> RNA (T replaced with U)
+        result = input.replace(/T/g, "U");
+      }
+
+      document.getElementById("dnaOutput").value = result;
+    }
+  </script>
+
+</body>
+</html>

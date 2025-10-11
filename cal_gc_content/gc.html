@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GC Content Calculator</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      padding: 24px; 
+      max-width: 800px; 
+      margin: auto; 
+      background: linear-gradient(135deg,white);
+      color: #003366;
+    }
+    h1 { 
+      font-size: 1.8rem; 
+      margin-bottom: 12px; 
+      color: #001a33; 
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    p {
+      text-align: center;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+    label { font-weight: bold; display:block; margin-bottom: 6px; }
+    textarea { 
+      width: 100%; 
+      height: 140px; 
+      padding: 12px; 
+      font-family: monospace; 
+      font-size: 1rem; 
+      border: 2px solid #99bbff; 
+      border-radius: 10px; 
+      background: #f9fbff; 
+      color: #002244; 
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+      resize: vertical;
+    }
+    .row { 
+      display:flex; 
+      gap:12px; 
+      align-items:center; 
+      margin-top:16px; 
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+    button { 
+      padding: 10px 18px; 
+      border-radius: 10px; 
+      border: 1px solid #3366cc; 
+      background: #4d94ff; 
+      color: white; 
+      font-weight: 600; 
+      cursor:pointer; 
+      transition: all 0.25s ease-in-out; 
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+    button:hover { 
+      background: #0052cc; 
+      transform: translateY(-2px);
+    }
+    .result { 
+      margin-top:20px; 
+      padding:18px; 
+      border-radius:10px; 
+      background:#f0f7ff; 
+      border:2px solid #99bbff; 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .error { color: #cc0000; font-weight: bold; }
+    small { color:#003366; font-style: italic; }
+    ul { margin: 12px 0 0 20px; }
+    li { margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+  <h1>GC Content Calculator</h1>
+  <p>Paste a DNA sequence (A, T, G, C). The tool will compute GC% and give biological interpretation.</p>
+
+  <label for="dna">DNA sequence:</label>
+  <textarea id="dna" placeholder="e.g. ATGCGTAACGTT" autofocus></textarea>
+
+  <div class="row">
+    <button id="calc">Calculate GC%</button>
+    <button id="clear">Clear</button>
+    <small id="note">Only A, T, G, C characters are accepted (spaces/newlines ignored).</small>
+  </div>
+
+  <div id="output" class="result" aria-live="polite" hidden>
+    <div id="msg"></div>
+    <ul id="stats"></ul>
+  </div>
+
+  <script>
+    const dnaEl = document.getElementById('dna');
+    const calcBtn = document.getElementById('calc');
+    const clearBtn = document.getElementById('clear');
+    const output = document.getElementById('output');
+    const msg = document.getElementById('msg');
+    const stats = document.getElementById('stats');
+
+    function cleanSequence(seq) {
+      return seq.replace(/\s+/g, '').toUpperCase();
+    }
+
+    function validateSequence(seq) {
+      return /^[ATGC]*$/.test(seq);
+    }
+
+    function calculateGC(seq) {
+      const cleaned = cleanSequence(seq);
+      if (cleaned.length === 0) {
+        return { error: 'Sequence is empty after removing spaces/newlines.' };
+      }
+      if (!validateSequence(cleaned)) {
+        return { error: 'Invalid characters found. Use only A, T, G, C (case-insensitive).' };
+      }
+      let gCount = 0;
+      let cCount = 0;
+      for (const ch of cleaned) {
+        if (ch === 'G') gCount++;
+        else if (ch === 'C') cCount++;
+      }
+      const gc = gCount + cCount;
+      const total = cleaned.length;
+      const gcPercent = (gc / total) * 100;
+      return { gcCount: gc, gCount, cCount, total, gcPercent };
+    }
+
+    function interpretGC(gcPercent) {
+      if (gcPercent < 40) {
+        return {
+          meaning: "Low GC content → AT-rich regions",
+          coding: "Usually non-coding or regulatory"
+        };
+      } else if (gcPercent <= 60) {
+        return {
+          meaning: "Balanced GC content → typical of coding genes",
+          coding: "Likely coding region"
+        };
+      } else {
+        return {
+          meaning: "High GC content → tightly bound, high thermal stability",
+          coding: "May be coding or GC-rich functional area"
+        };
+      }
+    }
+
+    calcBtn.addEventListener('click', () => {
+      const seq = dnaEl.value || '';
+      const res = calculateGC(seq);
+      output.hidden = false;
+      stats.innerHTML = '';
+
+      if (res.error) {
+        msg.innerHTML = `<div class="error">Error: ${res.error}</div>`;
+        return;
+      }
+
+      msg.innerHTML = `<strong>GC Content:</strong> ${res.gcPercent.toFixed(2)}%`;
+
+      const li1 = document.createElement('li');
+      li1.textContent = `Total length (A/T/G/C): ${res.total}`;
+      const li2 = document.createElement('li');
+      li2.textContent = `G count: ${res.gCount}`;
+      const li3 = document.createElement('li');
+      li3.textContent = `C count: ${res.cCount}`;
+      const li4 = document.createElement('li');
+      li4.textContent = `G+C count: ${res.gcCount}`;
+
+      // new interpretation
+      const interpretation = interpretGC(res.gcPercent);
+      const li5 = document.createElement('li');
+      li5.textContent = `Biological Meaning: ${interpretation.meaning}`;
+      const li6 = document.createElement('li');
+      li6.textContent = `Coding Potential: ${interpretation.coding}`;
+
+      stats.appendChild(li1);
+      stats.appendChild(li2);
+      stats.appendChild(li3);
+      stats.appendChild(li4);
+      stats.appendChild(li5);
+      stats.appendChild(li6);
+    });
+
+    clearBtn.addEventListener('click', () => {
+      dnaEl.value = '';
+      output.hidden = true;
+      msg.textContent = '';
+      stats.innerHTML = '';
+      dnaEl.focus();
+    });
+
+    dnaEl.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        calcBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>

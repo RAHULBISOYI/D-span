@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Videos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5faff;
+    }
+
+    .video-container {
+      margin-top: 20px;
+      background: #e6f3ff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 100%; 
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    h3 {
+      font-size: 32px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 25px;
+      position: relative;
+      display: inline-block;
+      background: linear-gradient(90deg, #004080, #00aaff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h3::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 25%; 
+      width: 50%; 
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #004080, #00aaff);
+    }
+
+    .video-wrapper {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .video-box {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .video-box iframe {
+      width: 100%;
+      height: 300px;
+      border-radius: 8px;
+    }
+
+    .nav-buttons {
+      margin-top: 20px;
+    }
+
+    .nav-buttons button {
+      font-size: 20px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #004080;
+      color: white;
+      margin: 0 10px;
+      transition: background 0.3s;
+    }
+
+    .nav-buttons button:hover {
+      background: #0066cc;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Your Div -->
+  <div class="video-container">
+    <h3>🔬 Explore the Science of DNA</h3>
+
+    <div class="video-wrapper" id="videoWrapper">
+      <!-- Videos will load here -->
+    </div>
+
+    <div class="nav-buttons">
+      <button onclick="prevVideo()">‹</button>
+      <button onclick="nextVideo()">›</button>
+    </div>
+  </div>
+
+  <script>
+    // List of video sets (3 per row)
+    const videoSets = [
+      [
+        { url: "https://www.youtube.com/embed/sSVUjGrifz8", title: "DNA Base Pairing Tutorial" },
+        { url: "https://www.youtube.com/embed/YlOqI3PQwjo", title: "DNA to RNA Transcription" },
+        { url: "https://www.youtube.com/embed/nI7nZ0MyoTw", title: "Reverse Complement in DNA (Explained)" }
+      ],
+      [
+        { url: "https://www.youtube.com/embed/ZBkU8Y_4hsY", title: "What is DNA?" },
+        { url: "https://www.youtube.com/embed/oefAI2x2CQM", title: "DNA Replication Explained" },
+        { url: "https://www.youtube.com/embed/q6PP-C4udkA", title: "Mutations in DNA" }
+      ]
+    ];
+
+    let currentSet = 0;
+
+    function showVideos(setIndex) {
+      const wrapper = document.getElementById("videoWrapper");
+      wrapper.innerHTML = ""; // clear old videos
+      videoSets[setIndex].forEach(video => {
+        const div = document.createElement("div");
+        div.className = "video-box";
+        div.innerHTML = `
+          <iframe src="${video.url}" title="${video.title}"
+            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>`;
+        wrapper.appendChild(div);
+      });
+    }
+
+    function nextVideo() {
+      currentSet = (currentSet + 1) % videoSets.length;
+      showVideos(currentSet);
+    }
+
+    function prevVideo() {
+      currentSet = (currentSet - 1 + videoSets.length) % videoSets.length;
+      showVideos(currentSet);
+    }
+
+    // Load first set on page load
+    window.onload = () => showVideos(currentSet);
+  </script>
+
+</body>
+</html>
