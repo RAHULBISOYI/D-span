@@ -120,6 +120,17 @@ nav {
       color: #13203f;
       font-size: 48px;
     }
+    .icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white; /* or whatever your navbar color is */
+  font-size: 24px;
+}
+.icon-btn:hover {
+  color: #93c5fd; /* light blue hover */
+}
+
 .hero-banner {
  position: relative;
   width: 100%;
@@ -483,3 +494,17 @@ contact section
 
 /*feature*/
 
+
+
+/*body blr
+#blr {
+  filter: blur(10px); /* blur content *
+  pointer-events: none; /* prevent interactions *
+  transition: filter 0.5s ease;
+}
+
+#blr.show {
+  filter: none; /* remove blur *
+  pointer-events: auto;
+}
+*/

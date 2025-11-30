@@ -102,6 +102,7 @@
   background: #0066cc;
 }
 
+
   </style>
 </head>
 <body>
@@ -116,19 +117,36 @@
 
     </div>
     <div class="divider"></div>
-    <div class="square">Sign Up</div>
+    <div class="square">
+       <div>
+        <a href="/email_auth/sign.html" class="sign-in-btn">Sign Up</a>
+      </div>
+      </div>
     <div class="signup">
       <div>
-        <a href="app.html" class="sign-in-btn">Sign In</a>
+        <a href="/email_auth/login.html" class="sign-in-btn">Sign In</a>
       </div>
       <p>Already have an account?</p>
     </div>
     <div class="lago">D 🧬SPAN</div>
     <div class="profile">
-      <i class="fa-regular fa-circle-user"></i>
+     <button id="loginBtn" class="icon-btn">
+  <i class="fa-regular fa-circle-user"></i>
+</button>
+
+<script>
+  document.getElementById("loginBtn").addEventListener("click", () => {
+    window.location.href = "profile.html";
+  });
+</script>
+
     </div>
   </nav>
 
+  <div id="blr">
+
+    
+  
   <!-- Hero Banner -->
   <section id="home" class="hero-banner scroll-reveal">
     <img src="../dna_image.jpg" alt="DNA banner">
@@ -306,25 +324,29 @@
 <!--note section-->
     <section id="dna-section" style="
       font-family: Arial, sans-serif;
-      background-color: #0b3155;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 70vh;
-      flex-direction: column;
-      text-align: center;
-      background: rgb(18, 62, 115);
-      border-radius: 12px;
-      border: 2px solid aqua;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 1500px;
-      margin: auto;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  flex-direction: column;
+  text-align: center;
+
+  background-image: url('../fotter1.jpg');
+  background-size: cover;     
+  background-position: center;
+  background-repeat: no-repeat;
+
+  border-radius: 12px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 1500px;
+  margin: auto;
     ">
       <h1 style="
-        color: aqua;
+        color:  rgb(5, 24, 59);
         font-size: 2em;
         margin-bottom: 20px;
         text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
@@ -387,11 +409,11 @@
           </ul>
         </div>
         <div class="footer-social">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-github"></i></a>
-        </div>
+       <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+       <a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
+       <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+       <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+  </div>
       </div>
       <div class="footer-bottom">
         <p>
@@ -421,6 +443,8 @@
     window.addEventListener('scroll', revealOnScroll);
     window.addEventListener('load', revealOnScroll);
   </script>
+
+  </div>
 
 </body>
 </html>

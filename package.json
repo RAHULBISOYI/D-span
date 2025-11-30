@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "tesseract.js": "^6.0.1"
+  },
+  "name": "d_span_5th_sem",
+  "version": "1.0.0",
+  "main": "ocr.js",
+  "scripts": {
+    "start": "node ocr.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

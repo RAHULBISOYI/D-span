@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <title>Explore DNA</title>
   <style>
     body {
@@ -10,6 +13,139 @@
       background: #f9fafb;
       padding: 40px;
       text-align: center;
+    }
+
+
+    
+
+    .lago {
+      position: absolute;
+      left: 30px;
+      font-size: 34px;
+      font-weight: bold;
+      color: white;
+      font-style: italic;
+    }
+
+    .divider {
+      position: absolute;
+      right: 500px;
+      height: 40px;
+      width: 2px;
+      background-color: white;
+      z-index: 1;
+    }
+
+    .square {
+      position: absolute;
+      right: 370px;
+      background-color: rgb(6, 61, 150);
+      color: #48eef4;
+      font-weight: bold;
+      padding: 8px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .square:hover {
+      background-color: #f8ff2f;
+      color: rgb(0, 0, 0);
+    }
+
+    nav {
+      background: rgb(59, 103, 145);
+      height: 70px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 70px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+    }
+
+    .signup {
+      position: absolute;
+      right: 200px;
+      top: 15px;
+      background-color: transparent;
+      color: #48eef4;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 6px;
+      text-align: right;
+      z-index: 10;
+    }
+
+    .signup p {
+      margin: 0;
+      font-size: 12px;
+      color: #5cb2cc;
+    }
+
+    .sign-in-btn {
+      padding: 6px 12px;
+      background-color: transparent;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+
+    .sign-in-btn:hover {
+      background-color: #2f5474;
+      color: rgb(164, 127, 127);
+    }
+
+    .profile {
+      position: absolute;
+      right: 100px;
+      top: 15px;
+      background-color: transparent;
+      color: #000000;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 50%;
+      border: 3px solid #000;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+    }
+
+    .profile i {
+      color: #13203f;
+      font-size: 48px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 24px;
+    }
+
+    .icon-btn:hover {
+      color: #93c5fd;
     }
 
     h1 {
@@ -72,6 +208,39 @@
   </style>
 </head>
 <body>
+  
+  <nav>
+    <div class="nav-links">
+      <a href="/firstpage/landing_page.html">Home</a>
+      <a href="/navbar/about.html">About</a>
+      <a href="/navbar/contact.html">Contact</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="square">
+      <a href="/email_auth/sign.html" class="sign-in-btn">Sign Up</a>
+    </div>
+
+    <div class="signup">
+      <a href="/email_auth/login.html" class="sign-in-btn">Sign In</a>
+      <p>Already have an account?</p>
+    </div>
+
+    <div class="lago">D 🧬SPAN</div>
+
+    <div class="profile">
+      <button id="loginBtn" class="icon-btn">
+        <i class="fa-regular fa-circle-user"></i>
+      </button>
+
+      <script>
+        document.getElementById("loginBtn").addEventListener("click", () => {
+          window.location.href = "/firstpage/profile.html";
+        });
+      </script>
+    </div>
+  </nav>
   <h1>🧬 Explore DNA Topics</h1>
 
   <div class="container">

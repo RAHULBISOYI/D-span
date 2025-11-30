@@ -3,80 +3,277 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <title>GC Content Calculator</title>
+
   <style>
     body {
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      padding: 24px; 
-      max-width: 800px; 
-      margin: auto; 
+      padding: 24px;
+      padding-top: 110px;  /* FIX: Push content below fixed navbar */
+      max-width: 800px;
+      margin: auto;
       background: linear-gradient(135deg,white);
       color: #003366;
     }
-    h1 { 
-      font-size: 1.8rem; 
-      margin-bottom: 12px; 
-      color: #001a33; 
+
+    .lago {
+      position: absolute;
+      left: 30px;
+      font-size: 34px;
+      font-weight: bold;
+      color: white;
+      font-style: italic;
+    }
+
+    .divider {
+      position: absolute;
+      right: 500px;
+      height: 40px;
+      width: 2px;
+      background-color: white;
+      z-index: 1;
+    }
+
+    .square {
+      position: absolute;
+      right: 370px;
+      background-color: rgb(6, 61, 150);
+      color: #48eef4;
+      font-weight: bold;
+      padding: 8px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .square:hover {
+      background-color: #f8ff2f;
+      color: rgb(0, 0, 0);
+    }
+
+    nav {
+      background: rgb(59, 103, 145);
+      height: 70px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 70px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+    }
+
+    .signup {
+      position: absolute;
+      right: 200px;
+      top: 15px;
+      background-color: transparent;
+      color: #48eef4;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 6px;
+      text-align: right;
+      z-index: 10;
+    }
+
+    .signup p {
+      margin: 0;
+      font-size: 12px;
+      color: #5cb2cc;
+    }
+
+    .sign-in-btn {
+      padding: 6px 12px;
+      background-color: transparent;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+
+    .sign-in-btn:hover {
+      background-color: #2f5474;
+      color: rgb(164, 127, 127);
+    }
+
+    .profile {
+      position: absolute;
+      right: 100px;
+      top: 15px;
+      background-color: transparent;
+      color: #000000;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 50%;
+      border: 3px solid #000;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+    }
+
+    .profile i {
+      color: #13203f;
+      font-size: 48px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 24px;
+    }
+
+    .icon-btn:hover {
+      color: #93c5fd;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+      color: #001a33;
       text-align: center;
       letter-spacing: 1px;
     }
+
     p {
       text-align: center;
       font-size: 1rem;
       margin-bottom: 20px;
     }
-    label { font-weight: bold; display:block; margin-bottom: 6px; }
-    textarea { 
-      width: 100%; 
-      height: 140px; 
-      padding: 12px; 
-      font-family: monospace; 
-      font-size: 1rem; 
-      border: 2px solid #99bbff; 
-      border-radius: 10px; 
-      background: #f9fbff; 
-      color: #002244; 
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 140px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 1rem;
+      border: 2px solid #99bbff;
+      border-radius: 10px;
+      background: #f9fbff;
+      color: #002244;
       box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
       resize: vertical;
     }
-    .row { 
-      display:flex; 
-      gap:12px; 
-      align-items:center; 
-      margin-top:16px; 
+
+    .row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 16px;
       justify-content: flex-start;
       flex-wrap: wrap;
     }
-    button { 
-      padding: 10px 18px; 
-      border-radius: 10px; 
-      border: 1px solid #3366cc; 
-      background: #4d94ff; 
-      color: white; 
-      font-weight: 600; 
-      cursor:pointer; 
-      transition: all 0.25s ease-in-out; 
+
+    button {
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: 1px solid #3366cc;
+      background: #4d94ff;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease-in-out;
       box-shadow: 0 3px 6px rgba(0,0,0,0.15);
     }
-    button:hover { 
-      background: #0052cc; 
+
+    button:hover {
+      background: #0052cc;
       transform: translateY(-2px);
     }
-    .result { 
-      margin-top:20px; 
-      padding:18px; 
-      border-radius:10px; 
-      background:#f0f7ff; 
-      border:2px solid #99bbff; 
+
+    .result {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 10px;
+      background: #f0f7ff;
+      border: 2px solid #99bbff;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    .error { color: #cc0000; font-weight: bold; }
-    small { color:#003366; font-style: italic; }
-    ul { margin: 12px 0 0 20px; }
-    li { margin-bottom: 4px; }
+
+    .error {
+      color: #cc0000;
+      font-weight: bold;
+    }
+
+    small {
+      color: #003366;
+      font-style: italic;
+    }
+
+    ul {
+      margin: 12px 0 0 20px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
   </style>
 </head>
+
 <body>
+
+  <nav>
+    <div class="nav-links">
+      <a href="/firstpage/landing_page.html">Home</a>
+      <a href="/navbar/about.html">About</a>
+      <a href="/navbar/contact.html">Contact</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="square">
+      <a href="/email_auth/sign.html" class="sign-in-btn">Sign Up</a>
+    </div>
+
+    <div class="signup">
+      <a href="/email_auth/login.html" class="sign-in-btn">Sign In</a>
+      <p>Already have an account?</p>
+    </div>
+
+    <div class="lago">D 🧬SPAN</div>
+
+    <div class="profile">
+      <button id="loginBtn" class="icon-btn">
+        <i class="fa-regular fa-circle-user"></i>
+      </button>
+
+      <script>
+        document.getElementById("loginBtn").addEventListener("click", () => {
+          window.location.href = "/firstpage/profile.html";
+        });
+      </script>
+    </div>
+  </nav>
+
   <h1>GC Content Calculator</h1>
   <p>Paste a DNA sequence (A, T, G, C). The tool will compute GC% and give biological interpretation.</p>
 
@@ -112,21 +309,26 @@
 
     function calculateGC(seq) {
       const cleaned = cleanSequence(seq);
+
       if (cleaned.length === 0) {
         return { error: 'Sequence is empty after removing spaces/newlines.' };
       }
       if (!validateSequence(cleaned)) {
         return { error: 'Invalid characters found. Use only A, T, G, C (case-insensitive).' };
       }
+
       let gCount = 0;
       let cCount = 0;
+
       for (const ch of cleaned) {
         if (ch === 'G') gCount++;
         else if (ch === 'C') cCount++;
       }
+
       const gc = gCount + cCount;
       const total = cleaned.length;
       const gcPercent = (gc / total) * 100;
+
       return { gcCount: gc, gCount, cCount, total, gcPercent };
     }
 
@@ -152,6 +354,7 @@
     calcBtn.addEventListener('click', () => {
       const seq = dnaEl.value || '';
       const res = calculateGC(seq);
+
       output.hidden = false;
       stats.innerHTML = '';
 
@@ -164,17 +367,20 @@
 
       const li1 = document.createElement('li');
       li1.textContent = `Total length (A/T/G/C): ${res.total}`;
+
       const li2 = document.createElement('li');
       li2.textContent = `G count: ${res.gCount}`;
+
       const li3 = document.createElement('li');
       li3.textContent = `C count: ${res.cCount}`;
+
       const li4 = document.createElement('li');
       li4.textContent = `G+C count: ${res.gcCount}`;
 
-      // new interpretation
       const interpretation = interpretGC(res.gcPercent);
       const li5 = document.createElement('li');
       li5.textContent = `Biological Meaning: ${interpretation.meaning}`;
+
       const li6 = document.createElement('li');
       li6.textContent = `Coding Potential: ${interpretation.coding}`;
 
@@ -200,5 +406,6 @@
       }
     });
   </script>
+
 </body>
 </html>

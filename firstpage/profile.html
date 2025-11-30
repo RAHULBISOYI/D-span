@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .profile-card {
+      background: white;
+      padding: 30px 50px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .profile-pic-wrapper {
+      position: relative;
+      width: 100px;
+      height: 100px;
+    }
+
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #d1d5db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+      background-image: linear-gradient(135deg, #2563eb, #1e40af);
+      overflow: hidden;
+    }
+
+    .profile-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .camera-icon {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: #2563eb;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      border: 2px solid white;
+    }
+
+    .profile-info h2 {
+      margin: 0;
+      color: #111827;
+    }
+
+    .profile-info p {
+      margin: 4px 0 0;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    button:hover {
+      background: #1e40af;
+    }
+
+    input[type="file"] {
+      display: none; /* hidden, triggered by camera icon */
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-card">
+    <div class="profile-pic-wrapper">
+      <div class="profile-pic" id="profilePic">
+        <span id="profileInitial">U</span>
+        <img id="profileImg" src="" alt="" style="display: none;">
+      </div>
+      <div class="camera-icon" id="cameraIcon"><i class="fa-solid fa-camera"></i></div>
+    </div>
+
+    <div class="profile-info">
+      <h2 id="userName">Loading...</h2>
+      <p id="userEmail"></p>
+    </div>
+  </div>
+
+  <input type="file" id="fileInput" accept="image/*" />
+  <button id="logoutBtn">Logout</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
+
+    // 🔹 Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB7tmC5m9MP6ypb_TsRxo6zqVAMOXwXR2M",
+      authDomain: "mywebapp-160ce.firebaseapp.com",
+      projectId: "mywebapp-160ce",
+      storageBucket: "mywebapp-160ce.appspot.com",
+      messagingSenderId: "809413811053",
+      appId: "1:809413811053:web:b5347ad9c250fad6e9d864"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const storage = getStorage(app);
+
+    const nameEl = document.getElementById("userName");
+    const emailEl = document.getElementById("userEmail");
+    const profileInitial = document.getElementById("profileInitial");
+    const profileImg = document.getElementById("profileImg");
+    const fileInput = document.getElementById("fileInput");
+    const cameraIcon = document.getElementById("cameraIcon");
+
+    // 🔹 Trigger file input on camera icon click
+    cameraIcon.addEventListener("click", () => {
+      fileInput.click();
+    });
+
+    // 🔹 Monitor auth state
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const name = user.displayName || "User";
+        const email = user.email;
+
+        nameEl.textContent = name;
+        emailEl.textContent = email;
+        profileInitial.textContent = name.charAt(0).toUpperCase();
+
+        if (user.photoURL) {
+          profileImg.src = user.photoURL;
+          profileImg.style.display = "block";
+          profileInitial.style.display = "none";
+        }
+      } else {
+        window.location.href = "/email_auth/login.html";
+      }
+    });
+
+    // 🔹 Upload photo to Firebase Storage and update user profile
+    fileInput.addEventListener("change", async () => {
+      const file = fileInput.files[0];
+      if (!file) return alert("Please select a file.");
+
+      const user = auth.currentUser;
+      const storageRef = ref(storage, `profileImages/${user.uid}`);
+
+      try {
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        await updateProfile(user, { photoURL: downloadURL });
+
+        profileImg.src = downloadURL;
+        profileImg.style.display = "block";
+        profileInitial.style.display = "none";
+
+        alert("Profile photo updated successfully!");
+      } catch (error) {
+        console.error(error);
+        alert("Upload failed: " + error.message);
+      }
+    });
+
+    // 🔹 Logout
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      alert("Logged out!");
+      window.location.href = "/blurpage/firspage.html";
+    });
+  </script>
+</body>
+</html>

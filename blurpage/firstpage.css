@@ -1,0 +1,498 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  scroll-behavior: smooth;
+background: linear-gradient(150deg, #ff6f91, #326cb3, #a4ebff, #1c516a);
+
+}
+
+
+
+.lago {
+  position: absolute;
+  left: 30px;
+  font-size: 34px;
+  font-weight: bold;
+  color: white;
+  font-style: italic;
+}
+.divider {
+  position: absolute;
+  right: 500px;            /* adjust based on logo's position */
+  height: 40px;
+  width: 2px;
+  background-color: white;
+  z-index: 1;
+}
+.square {
+    position: absolute;
+  right: 370px;
+  background-color: rgb(6, 61, 150);
+  color: #48eef4;
+  font-weight: bold;
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+ transition: background-color 0.3s, color 0.3s;
+}
+.square:hover{
+  background-color: #f8ff2f;
+  color: rgb(0, 0, 0);
+}
+
+nav {
+  background: rgb(59, 103, 145);
+  height: 70px;
+  position: fixed;        /* Fix nav at the top */
+  top: 0;                 /* Align to the top of the page */
+  left: 0;
+  width: 100%;            /* Full width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;          /* Ensures nav stays above content */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Optional shadow */
+}
+.nav-links {
+  display: flex;
+  gap: 70px;
+                      /* Position at the very top */
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight:unset;
+}.signup {
+  position: absolute;
+  right: 200px; /* adjust as needed */
+  top: 15px;    /* aligns it vertically inside nav */
+  background-color: transparent;
+  color: #48eef4;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 6px;
+  text-align: right;
+  z-index: 10;
+}
+
+.signup p {
+  margin: 0;
+  font-size: 12px;
+  color: #5cb2cc;
+}
+
+.sign-in-btn {
+   padding: 6px 12px;
+  background-color:transparent;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.sign-in-btn:hover {
+  background-color: #2f5474;
+  color: rgb(164, 127, 127);
+}
+.profile {
+  position: absolute;       /* Needed to place it at top-right */
+  right: 100px;             /* Adjust as needed */
+  top: 15px;                /* Aligns vertically inside nav */
+  background-color: transparent;
+  color: #000000;
+  font-weight: bold;
+  padding: 10px;            /* Padding makes it circular with border-radius */
+  border-radius: 50%;       /* Makes it a circle */
+  border: 3px solid #000;   /* Optional: adds a circle border */
+  z-index: 10;              /* Keeps it on top */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;              /* Set width */
+  height: 25px;             /* Set height */
+  cursor: pointer;          /* Pointer on hover */
+}
+  
+    .profile i {
+      color: #13203f;
+      font-size: 48px;
+    }
+.hero-banner {
+ position: relative;
+  width: 100%;
+  height: 550px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+}
+
+.banner-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  background-color:transparent;
+  padding: 20px 30px;
+  border-radius: 10px;
+}
+
+.banner-text h1 {
+  font-size: 82px;
+  font-weight: 600;
+}
+
+.banner-text p {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+
+
+/* 2nd section */
+.features {
+  display: flex;
+  flex-direction: column; /* Stack boxes vertically */
+  gap: 20px;              /* Space between boxes */
+  width: 100%;            /* Full width of the screen */
+  padding: 0;
+  margin: 0;
+}
+
+/* Box styling */
+.box {
+  width: 60%;
+  height: 350px;
+  padding: 20px;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 20px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center; /* Center text horizontally */
+  align-items: center;     /* Center text vertically */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+
+  /* Initial state for animation */
+  opacity: 0;
+  transform: translateY(50px);
+  animation: fadeUp 1s ease forwards; 
+    position: relative; /* Needed to contain absolutely positioned img */
+  overflow: hidden;  /* Apply animation */
+}
+
+/* Delay animation for each box */
+.box:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.box:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.box:nth-child(3) {
+  animation-delay: 0.6s;
+}
+.box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  border-radius: 20px;
+    transition: transform 0.5s ease; /* Smooth zoom */
+  display: block;
+  }
+.box:hover img {
+  transform: scale(1.1);
+    position: absolute;
+  z-index: 1;
+}
+/* for the box 3*/
+.features .box:nth-of-type(3) {
+  animation-delay: 0.6s;
+}
+
+.box h1 {
+  position: relative;
+  z-index: 3;
+  font-size: 2rem;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+  margin: 0;
+  pointer-events: none; /* Prevents text from blocking click */
+}
+
+
+/* Hover Effect: Pop Forward */
+.box:hover {
+  transform: scale(1.05); /* Slightly increase size */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7); /* Stronger shadow */
+}
+
+/* Odd boxes → Right side */
+.box:nth-child(odd) {
+  align-self: flex-start;
+}
+
+/* Even boxes → Left side */
+.box:nth-child(even) {
+  align-self: flex-end;
+}
+
+/* Keyframes for fade and slide-up */
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/*  transparent din in the feature*/
+ 
+.transparent-div {
+  position: absolute;        
+  top: 0;
+  right: 0;                   
+  width: 450px;               
+  height: 100%;               
+  background-color: rgba(0, 0, 0, 0.8); 
+  z-index: 2;               
+  display: flex;              /* center content easily */
+  flex-direction: column;     /* stack heading and text vertically */
+  align-items: center;        
+  justify-content: center;    /* center both together vertically */
+  padding: 10px;
+  box-sizing: border-box;    
+}
+
+.transparent-div h1 {
+  margin: 0 0 8px 0; /* space between heading and text */
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  font-family: "cooper black", "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.1;
+  letter-spacing: 0.2px;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.6);
+  pointer-events: none;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+.transparent-div .bottom-text {
+  color: #f0f0f0;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center; /* fixed from 'bottom' to valid 'center' */
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  max-width: 90%;
+}
+
+
+
+/*
+contact section
+*/
+/* Contact + Footer Combined */
+/* Contact Section */
+#contact {
+  font-family: Arial, sans-serif;
+  padding: 0;
+  margin: 40px auto; /* Centers horizontally with spacing from top */
+  background-color: rgba(0, 0, 0, 0.3); /* Black with 30% transparency */
+  height: auto; /* Let the height adjust to content */
+  width: 90%; /* Responsive width instead of fixed 1500px */
+  max-width: 1510px; /* Limit the maximum width */
+  border-radius: 20px; /* Rounded corners */
+  overflow: hidden; /* Clip any content overflowing rounded edges */
+
+  /* Actual shadow values */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+
+
+
+}
+
+/* Black Header Container */
+.contact-footer-wrapper {
+  background-color: #9d7070;
+  color: #fff;
+  padding: 40px 20px;
+  border-radius: 20px 20px 0 0; /* Only round top corners */
+}
+
+/* Contact Header */
+.contact-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.contact-header h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.contact-header p {
+  font-size: 16px;
+  color: #ccc;
+}
+
+/* Footer Content */
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.footer-column {
+  flex: 1 1 200px;
+  margin: 10px;
+}
+
+.footer-column h4 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #1db954;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column ul li {
+  margin: 8px 0;
+}
+
+.footer-column ul li a {
+  color: #bbb;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-column ul li a:hover {
+  color: #1db954;
+}
+
+/* Social Media */
+.footer-social {
+  display: flex;
+  gap: 15px;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.footer-social a {
+  color: #bbb;
+  transition: color 0.3s;
+}
+
+.footer-social a:hover {
+  color: #1db954;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.footer-bottom a {
+  color: #aaa;
+  text-decoration: none;
+  margin: 0 5px;
+  transition: color 0.3s;
+}
+
+.footer-bottom a:hover {
+  color: #1db954;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #contact {
+    width: 95%;
+    border-radius: 10px;
+  }
+  
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+#contact{
+  min-height: 60vh;
+  padding: 40px;
+}
+
+#features {
+  min-height: 120vh; /* minimum 120% of screen height */
+  padding: 40px;
+}
+#home {
+  min-height: 80vh;
+  
+}
+
+
+#videos{
+  min-height: 100vh;
+  padding: 40px;
+
+}
+
+
+/* scroll effect of the body*/
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(50px);  /* Move down initially */
+  transition: all 0.8s ease-out;
+}
+
+.scroll-reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/*feature*/
+
+
+
+/*body blr*/
+#blr {
+  filter: blur(10px); /* blur content */
+  pointer-events: none; /* prevent interactions */
+  transition: filter 0.5s ease;
+}
+
+#blr.show {
+  filter: none; /* remove blur */
+  pointer-events: auto;
+}
