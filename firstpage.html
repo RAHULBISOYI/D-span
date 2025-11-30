@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D-SPAN DNA Analyzer</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link rel="stylesheet" href="firstpage.css">
+
+  <style>
+    /* Scroll Animation */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease-out;
+    }
+    .scroll-reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Video Section */
+    #videos {
+      padding: 40px 20px;
+      background: none;
+      font-family: Arial, sans-serif;
+    }
+
+    #videos .video-container {
+      background: #0a243a;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    #videos h3 {
+      font-size: 32px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 25px;
+      background: linear-gradient(90deg, #3a648e, #82bdda);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      display: inline-block;
+    }
+
+    #videos h3::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 20%;
+      width: 60%;
+      height: 4px;
+      background: linear-gradient(90deg, #004080, #00aaff);
+      border-radius: 2px;
+    }
+
+    #videos .video-wrapper {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      cursor: grab;
+      flex-wrap: nowrap;
+    }
+
+    #videos .video-wrapper.active {
+      cursor: grabbing;
+    }
+
+    #videos .video-box iframe {
+      width: 350px;
+      height: 220px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    #videos .video-box:hover iframe {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      transition: .3s;
+    }
+
+    #videos .nav-buttons button {
+      font-size: 20px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #004080;
+      color: white;
+      margin: 0 10px;
+      transition: 0.3s;
+    }
+
+    #videos .nav-buttons button:hover {
+      background: #0066cc;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-links">
+      <a href="/firstpage/landing_page.html">Home</a>
+      <a href="/navbar/about.html">About</a>
+      <a href="/navbar/contact.html">Contact</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="square">
+      <a href="/email_auth/sign.html" class="sign-in-btn">Sign Up</a>
+    </div>
+
+    <div class="signup">
+      <a href="/email_auth/login.html" class="sign-in-btn">Sign In</a>
+      <p>Already have an account?</p>
+    </div>
+
+    <div class="lago">D 🧬SPAN</div>
+
+    <div class="profile">
+      <i class="fa-regular fa-circle-user"></i>
+    </div>
+  </nav>
+
+  <div id="blr">
+
+    <!-- Hero Banner -->
+    <section id="home" class="hero-banner scroll-reveal">
+      <img src="../dna_image.jpg" alt="DNA banner">
+      <div class="banner-text">
+        <h1>Discover the Pattern Within.</h1>
+        <p>Analyze Your DNA Instantly with <strong>D-SPAN</strong>.</p>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="scroll-reveal">
+      <h2>DNA Analyzer Features</h2>
+
+      <div class="features">
+
+        <div class="box scroll-reveal">
+          <img src="../search_pattern.jpg" alt="DNA Search">
+          <a href="/search_pattern/search_pattern.html" target="_blank" class="feature-link">
+            <div class="transparent-div">
+              <h1>Search DNA Pattern</h1>
+              <p class="bottom-text">Find specific DNA sequences quickly</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="box scroll-reveal">
+          <img src="../gc_con.jpg" alt="GC Content">
+          <a href="/cal_gc_content/gc.html" target="_blank" class="feature-link">
+            <div class="transparent-div">
+              <h1>Calculate GC Content</h1>
+              <p class="bottom-text">Measure GC percentage</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="box scroll-reveal">
+          <img src="../comple_.jpg" alt="Complement DNA">
+          <a href="/complement/complement.html" target="_blank" class="feature-link">
+            <div class="transparent-div">
+              <h1>Decode Your Complement</h1>
+              <p class="bottom-text">Generate complement strand</p>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Video Section -->
+    <section id="videos" class="scroll-reveal">
+      <div class="video-container">
+        <h3>🔬 Explore the Science of DNA</h3>
+
+        <div class="video-wrapper" id="videoWrapper"></div>
+
+        <div class="nav-buttons">
+          <button onclick="prevVideo()">‹</button>
+          <button onclick="nextVideo()">›</button>
+        </div>
+      </div>
+
+      <!-- Video Script -->
+      <script>
+        const videoSets = [
+          [
+            { url: "https://www.youtube.com/embed/sSVUjGriz8" },
+            { url: "https://www.youtube.com/embed/YlOqI3Pwjo" },
+            { url: "https://www.youtube.com/embed/nI7nZ0MyoTw" }
+          ],
+          [
+            { url: "https://www.youtube.com/embed/ZBkU8Y_4hsY" },
+            { url: "https://www.youtube.com/embed/oefAI2x2CQM" },
+            { url: "https://www.youtube.com/embed/q6PP-C4udkA" }
+          ]
+        ];
+
+        let currentSet = 0;
+        const wrapper = document.getElementById("videoWrapper");
+
+        function showVideos(index) {
+          wrapper.innerHTML = "";
+          videoSets[index].forEach(v => {
+            wrapper.innerHTML += `
+              <div class="video-box">
+                <iframe src="${v.url}" frameborder="0" allowfullscreen></iframe>
+              </div>`;
+          });
+        }
+
+        function nextVideo() {
+          currentSet = (currentSet + 1) % videoSets.length;
+          showVideos(currentSet);
+        }
+
+        function prevVideo() {
+          currentSet = (currentSet - 1 + videoSets.length) % videoSets.length;
+          showVideos(currentSet);
+        }
+
+        window.onload = () => showVideos(currentSet);
+      </script>
+    </section>
+
+    <!-- Learn Section -->
+    <section id="dna-section" style="
+      background-color: #0b3155;
+      border-radius: 12px;
+      border: 2px solid aqua;
+      padding: 40px;
+      max-width: 1500px;
+      margin: auto;
+      text-align: center;
+    ">
+      <h1 style="color: aqua;">D-Span Web – Explore and Learn About DNA</h1>
+
+      <button onclick="location.href='/firstpage/pdf.html'" style="
+        margin-top: 20px;
+        padding: 12px 24px;
+        background-color: aqua;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+      ">Learn About DNA</button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer scroll-reveal">
+      <div class="footer-container">
+        <div class="footer-column">
+          <h4>D-Span</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">FAQs</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © 2025 D-Span. All rights reserved.
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Scroll Reveal Script -->
+  <script>
+    function revealOnScroll() {
+      document.querySelectorAll('.scroll-reveal').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight - 100) {
+          el.classList.add('show');
+        }
+      });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+  </script>
+
+</body>
+</html>
