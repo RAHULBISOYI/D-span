@@ -99,7 +99,7 @@
     }
 
     input[type="file"] {
-      display: none; /* hidden, triggered by camera icon */
+      display: none;
     }
   </style>
 </head>
@@ -127,7 +127,7 @@
     import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
 
-    // 🔹 Firebase configuration
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyB7tmC5m9MP6ypb_TsRxo6zqVAMOXwXR2M",
       authDomain: "mywebapp-160ce.firebaseapp.com",
@@ -148,12 +148,10 @@
     const fileInput = document.getElementById("fileInput");
     const cameraIcon = document.getElementById("cameraIcon");
 
-    // 🔹 Trigger file input on camera icon click
-    cameraIcon.addEventListener("click", () => {
-      fileInput.click();
-    });
+    // Open file picker when clicking camera icon
+    cameraIcon.addEventListener("click", () => fileInput.click());
 
-    // 🔹 Monitor auth state
+    // Load user data
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const name = user.displayName || "User";
@@ -173,36 +171,51 @@
       }
     });
 
-    // 🔹 Upload photo to Firebase Storage and update user profile
-    fileInput.addEventListener("change", async () => {
-      const file = fileInput.files[0];
-      if (!file) return alert("Please select a file.");
+    // Upload Profile Photo
+   fileInput.addEventListener("change", async () => {
+  const file = fileInput.files[0];
+  console.log("File selected:", file);
 
-      const user = auth.currentUser;
-      const storageRef = ref(storage, `profileImages/${user.uid}`);
+  if (!file) {
+    alert("No file selected!");
+    return;
+  }
 
-      try {
-        await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(storageRef);
-        await updateProfile(user, { photoURL: downloadURL });
+  const user = auth.currentUser;
+  console.log("Current User:", user);
 
-        profileImg.src = downloadURL;
-        profileImg.style.display = "block";
-        profileInitial.style.display = "none";
+  if (!user) {
+    alert("User not logged in!");
+    return;
+  }
 
-        alert("Profile photo updated successfully!");
-      } catch (error) {
-        console.error(error);
-        alert("Upload failed: " + error.message);
-      }
-    });
+  const storageRef = ref(storage, `profileImages/${user.uid}`);
 
-    // 🔹 Logout
-    document.getElementById("logoutBtn").addEventListener("click", async () => {
-      await signOut(auth);
-      alert("Logged out!");
-      window.location.href = "/blurpage/firspage.html";
-    });
+  try {
+    console.log("Uploading...");
+    await uploadBytes(storageRef, file);
+    console.log("Upload complete!");
+
+    const downloadURL = await getDownloadURL(storageRef);
+    console.log("Download URL:", downloadURL);
+
+    await updateProfile(user, { photoURL: downloadURL });
+    console.log("Profile Updated!");
+
+    await user.reload();
+    console.log("User Reloaded:", user);
+
+    profileImg.src = downloadURL;
+    profileImg.style.display = "block";
+    profileInitial.style.display = "none";
+
+    alert("Profile photo updated successfully!");
+  } catch (error) {
+    console.error("Upload error:", error);
+    alert("Error: " + error.message);
+  }
+});
+
   </script>
 </body>
 </html>

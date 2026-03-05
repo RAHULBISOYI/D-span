@@ -205,91 +205,104 @@
       <!-- Videos will load here -->
     </div>
 
-    <div class="nav-buttons">
-      <button onclick="prevVideo()">‹</button>
-      <button onclick="nextVideo()">›</button>
-    </div>
-  </div>
+    <!-- FIX: removed duplicate nav-buttons div -->
+  
 
-  <script>
-    const videoSets = [
-      [
-        { url: "https://www.youtube.com/embed/sSVUjGriz8", title: "DNA Base Pairing Tutorial" },
-        { url: "https://www.youtube.com/embed/YlOqI3Pwjo", title: "DNA to RNA Transcription" },
-        { url: "https://www.youtube.com/embed/nI7nZ0MyoTw", title: "Reverse Complement in DNA (Explained)" }
-      ],
-      [
-        { url: "https://www.youtube.com/embed/ZBkU8Y_4hsY", title: "What is DNA?" },
-        { url: "https://www.youtube.com/embed/oefAI2x2CQM", title: "DNA Replication Explained" },
-        { url: "https://www.youtube.com/embed/q6PP-C4udkA", title: "Mutations in DNA" }
-      ]
-    ];
+  </div> <!-- FIX: closed video-container correctly -->
+</section>
 
-    let currentSet = 0;
-    const wrapper = document.getElementById("videoWrapper");
 
-    function showVideos(setIndex) {
-      wrapper.innerHTML = "";
-      videoSets[setIndex].forEach(video => {
-        const div = document.createElement("div");
-        div.className = "video-box";
-        div.innerHTML = `
-          <iframe src="${video.url}" title="${video.title}"
-            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>`;
-        wrapper.appendChild(div);
+<script>
+  const videoSets = [
+  [
+    { url: "https://www.youtube.com/embed/2JUu1WqidC4", title: "DNA Base Pairing Tutorial" },
+    { url: "https://www.youtube.com/embed/9tuudsMOcWA", title: "DNA to RNA Transcription" },
+    { url: "https://www.youtube.com/embed/gKHO0HHPsXg", title: "Reverse Complement in DNA (Explained)" }
+  ]
+];
+
+
+  let currentSet = 0;
+  const wrapper = document.getElementById("videoWrapper");
+
+  // Load Videos
+  function showVideos(index) {
+    wrapper.innerHTML = "";
+
+    videoSets[index].forEach(video => {
+      const div = document.createElement("div");
+      div.className = "video-box";
+      div.innerHTML = `
+        <iframe src="${video.url}" title="${video.title}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>`;
+      wrapper.appendChild(div);
+    });
+
+    // Apply drag-blocker after videos load
+    blockVideoDrag();
+  }
+
+  function nextVideo() {
+    currentSet = (currentSet + 1) % videoSets.length;
+    showVideos(currentSet);
+  }
+
+  function prevVideo() {
+    currentSet = (currentSet - 1 + videoSets.length) % videoSets.length;
+    showVideos(currentSet);
+  }
+
+  // Load first videos
+  window.onload = () => showVideos(currentSet);
+
+  // Drag/Swipe Scroll Logic
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  wrapper.addEventListener("mousedown", (e) => {
+    isDown = true;
+    wrapper.classList.add("active");
+    startX = e.pageX - wrapper.offsetLeft;
+    scrollLeft = wrapper.scrollLeft;
+  });
+
+  wrapper.addEventListener("mouseleave", () => {
+    isDown = false;
+    wrapper.classList.remove("active");
+  });
+
+  wrapper.addEventListener("mouseup", () => {
+    isDown = false;
+    wrapper.classList.remove("active");
+  });
+
+  wrapper.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - wrapper.offsetLeft;
+    const walk = (x - startX) * 2;
+    wrapper.scrollLeft = scrollLeft - walk;
+  });
+
+  wrapper.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    wrapper.scrollLeft += e.deltaY;
+  });
+
+  // ------------------------------------------------
+  // 🚫 FIX: Prevent dragging when clicking video
+  // ------------------------------------------------
+  function blockVideoDrag() {
+    document.querySelectorAll(".video-box iframe").forEach(ifr => {
+      ["mousedown", "mousemove", "touchstart", "touchmove"].forEach(event => {
+        ifr.addEventListener(event, e => e.stopPropagation());
       });
-    }
-
-    function nextVideo() {
-      currentSet = (currentSet + 1) % videoSets.length;
-      showVideos(currentSet);
-    }
-
-    function prevVideo() {
-      currentSet = (currentSet - 1 + videoSets.length) % videoSets.length;
-      showVideos(currentSet);
-    }
-
-    // Load first set on page load
-    window.onload = () => showVideos(currentSet);
-
-    // Enable drag/swipe effect for laptop touchpad or mouse
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    wrapper.addEventListener('mousedown', (e) => {
-      isDown = true;
-      wrapper.classList.add('active');
-      startX = e.pageX - wrapper.offsetLeft;
-      scrollLeft = wrapper.scrollLeft;
     });
-
-    wrapper.addEventListener('mouseleave', () => {
-      isDown = false;
-      wrapper.classList.remove('active');
-    });
-
-    wrapper.addEventListener('mouseup', () => {
-      isDown = false;
-      wrapper.classList.remove('active');
-    });
-
-    wrapper.addEventListener('mousemove', (e) => {
-      if(!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - wrapper.offsetLeft;
-      const walk = (x - startX) * 2; // scroll speed
-      wrapper.scrollLeft = scrollLeft - walk;
-    });
-
-    // Two-finger swipe / mouse wheel horizontal scroll
-    wrapper.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      wrapper.scrollLeft += e.deltaY; // vertical scroll converts to horizontal
-    });
-  </script>
+  }
+</script>
 
   <style>
     #videos .video-wrapper {
